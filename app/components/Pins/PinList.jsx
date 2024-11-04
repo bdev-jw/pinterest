@@ -1,5 +1,5 @@
 import app from '@/app/Shared/firebaseConfig'
-import PinItem from './PinItem'
+import PinItem from './../Pins/Pinitem'
 import React, { useEffect } from 'react'
 
 function PinList({listOfPins}) {
