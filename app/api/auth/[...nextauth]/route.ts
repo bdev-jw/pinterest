@@ -1,24 +1,35 @@
+import NextAuth, { NextAuthOptions } from "next-auth"
+import GoogleProvider from "next-auth/providers/google"
 
-import NextAuth from "next-auth"
-import GoogleProvider from "next-auth/providers/google";
-
-
-if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
-    throw new Error('Google OAuth 환경변수가 설정되지 않았습니다.');
-  }
-
-const handler = NextAuth({
+export const authOptions: NextAuthOptions = {
     providers: [
         GoogleProvider({
-          clientId: process.env.GOOGLE_CLIENT_ID,
-          clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-          authorization: {
-            params: {
-                prompt: "select_account",  // 계정 선택 화면 강제
+            clientId: process.env.GOOGLE_CLIENT_ID!,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+            authorization: {
+                params: {
+                    prompt: "select_account",
+                }
             }
-        }
         })
-    ]
-})
+    ],
+    secret: process.env.NEXTAUTH_SECRET,
+    session: {
+        strategy: "jwt",
+    },
+    cookies: {
+        sessionToken: {
+            name: `${process.env.NODE_ENV === 'production' ? '__Secure-' : ''}next-auth.session-token`,
+            options: {
+                httpOnly: true,
+                sameSite: 'lax',
+                path: '/',
+                secure: process.env.NODE_ENV === 'production',
+            },
+        },
+    }
+}
+
+const handler = NextAuth(authOptions)
 
 export { handler as GET, handler as POST }

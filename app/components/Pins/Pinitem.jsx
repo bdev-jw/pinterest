@@ -12,7 +12,7 @@ function PinItem({pin}) {
     }
   return (
     <div className=''>
-       <div class="relative 
+       <div className="relative 
        before:absolute
        before:h-full before:w-full
        before:rounded-3xl
