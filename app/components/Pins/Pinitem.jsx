@@ -20,7 +20,7 @@ function PinItem({pin}) {
        hover:before:bg-gray-600 
        before:opacity-50
        cursor-pointer
-       " onClick={()=>router.push("/pin/"+pin.id)}>
+       flex flex-col items-center" onClick={()=>router.push("/pin/"+pin.id)}>
        
         <Image src={pin.image}
         alt={pin.title}
